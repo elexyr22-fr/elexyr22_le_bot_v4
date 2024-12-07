@@ -7,7 +7,7 @@ module.exports = new Command({
   name: "rappel",
   description: "Définir un rappel",
   utilisation: "",
-  alias: ["rappel", "rmd", "reminder", "rp", "rmd-add"],
+  alias: ["rappel", "rmd", "reminder", "rp", "rmd-add", "ra"],
   permission: "",
   category: "3) Utile",
   cooldown: 5,
@@ -16,17 +16,16 @@ module.exports = new Command({
     const db = bot.db;
 
     let time = args[0];
-    if (!time) return message.reply(" *Veuillez indiquer une durée...*, exemple: `e!rappel <durée> <raison>` ");
+    if (!time) return message.reply("*Veuillez indiquer une durée...*, exemple: `e!rappel <durée> <raison>`");
     
     let parsedTime = ms(time);
-    if (!parsedTime) return message.reply(" *Le temps indiqué est invalide...*, exemple: `e!rappel <durée> <raison>` ");
+    if (!parsedTime) return message.reply("*Le temps indiqué est invalide...*, exemple: `e!rappel <durée> <raison>`");
     
     let reason = args.slice(1).join(" ");
-    if(!reason) return message.reply(" Merci de donné un raison, exemple: `e!rappel <durée> <raison>`")
+    if(!reason) return message.reply("Merci de donné un raison, exemple: `e!rappel <durée> <raison>`")
 
     let triggerTime = Date.now() + parsedTime;
 
-    // Insérer les informations du minuteur dans la table "timers"
     let sql = `INSERT INTO rmd (userID, timer, reason) VALUES ('${message.author.id}', '${triggerTime}', '${reason}')`;
     db.query(sql, function (err) {
       if (err) {
@@ -37,8 +36,7 @@ module.exports = new Command({
       const timestampInMilliseconds = triggerTime
       const timestampInSeconds = Math.floor(timestampInMilliseconds / 1000); 
 
-      message.reply(` Rappel ajouté ! | <t:${timestampInSeconds}:R> |\`\` <t:${timestampInSeconds}:R>\`\` `);
-      //Code: \`\`${timestampInSeconds}\`\`
+      message.reply(`Rappel ajouté ! | <t:${timestampInSeconds}:R>`);
     });
   },
 });
