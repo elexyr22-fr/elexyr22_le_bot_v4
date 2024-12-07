@@ -7,7 +7,7 @@ module.exports = new Command({
   name: "unrappel",
   description: "Supprimer un rappel par raison",
   utilisation: "",
-  alias: ["unrappel", "unrmd", "rappel-remove", "rmd-remove"],
+  alias: ["unrappel", "unrmd", "rappel-remove", "rmd-remove", "rmdr", "rr"],
   permission: "",
   category: "3) Utile",
   cooldown: 5,
@@ -17,9 +17,10 @@ module.exports = new Command({
 
     const reasonToFind = args.join(" ");
     if (!reasonToFind) {
-      return message.reply(" Veuillez indiquer la raison pour supprimer le rmd !");
+      return message.reply("*Veuillez indiquer la raison pour supprimer le rmd...*");
+      
     } else {
-      // Supprimer le rappel par raison
+
       let deleteSql = `DELETE FROM rmd WHERE userID='${message.author.id}' AND reason='${reasonToFind}'`;
       db.query(deleteSql, function (err, results) {
         if (err) {
@@ -31,7 +32,7 @@ module.exports = new Command({
           return message.reply("*Aucun rappel trouvé avec la raison spécifiée...*");
         }
 
-        message.reply(" Le **RMD** à été __supprimé avec succès !__ ");
+        message.reply("Le **RMD** à été __supprimé avec succès !__ ");
       });
     }
   },
