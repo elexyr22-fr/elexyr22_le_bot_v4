@@ -1,11 +1,11 @@
 const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js");
-const Discord = require("discord.js")
+const Discord = require("discord.js");
 const Command = require("../../Structure/Command");
-const chalk = require("chalk")
+const chalk = require("chalk");
 
 module.exports = new Command({
   name: "mass-role-remove",
-  description: "Permet de retirer un rôle à tout le monde",
+  description: "Permet de retirer un rôle à tout le monde ayant ce rôle",
   utilisation: "",
   alias: ["mass-roll-remove", "roll"],
   permission: Discord.Permissions.FLAGS.MANAGE_GUILD,
@@ -15,10 +15,9 @@ module.exports = new Command({
   async run(bot, message, args) {
     const role = message.mentions.roles.first() || message.guild.roles.cache.get(args[0]);
     if (!role) {
-      return message.reply("Veuillez mentionner un rôle à retirer ? ");
+      return message.reply("<:elexyr22:1067501213085597806> Veuillez mentionner un rôle à retirer ? <a:mmhh:1067175530509639791>");
     }
 
-    // Créer les boutons pour sélectionner le type de membres
     const humansButton = new MessageButton()
       .setCustomId("humans")
       .setLabel("👥")
@@ -32,26 +31,16 @@ module.exports = new Command({
       .setLabel("♾️")
       .setStyle("SECONDARY");
 
-    // Créer une rangée de boutons
-    const row = new MessageActionRow()
-      .addComponents(humansButton, botsButton, allButton);
+    const row = new MessageActionRow().addComponents(humansButton, botsButton, allButton);
 
-    // Filtrer les interactions pour les boutons spécifiés
-    const filter = (interaction) => {
-      return (
-        interaction.isButton() &&
-        ["humans", "bots", "all"].includes(interaction.customId)
-      );
-    };
+    const filter = (interaction) => interaction.isButton() && ["humans", "bots", "all"].includes(interaction.customId);
 
-    // Créer l'embed pour la confirmation
     const embed = new MessageEmbed()
       .setColor("RANDOM")
       .setTitle("Retrait en masse d'un rôle")
-      .setDescription(`Vous vous apprétez à retirer le rôle "${role}" à ${message.guild.memberCount} membres du serveur.\n\n **Que souhaitez-vous faire ?**\n👥・Retirer le rôle uniquement aux **humains.**\n🤖・Retirer le rôle uniquement aux **robots.**\n :infinity: ・Retirer le rôle à **tous les membres.**`)
+      .setDescription(`Vous vous apprêtez à retirer le rôle "${role}" à tous les membres ayant ce rôle.\n\n **Que souhaitez-vous faire ?**\n👥・Retirer le rôle uniquement aux **humains.**\n🤖・Retirer le rôle uniquement aux **robots.**\n♾️・Retirer le rôle à **tous les membres.**`)
       .setFooter(`Demandé par : ${message.author.username}`, message.author.displayAvatarURL({ dynamic: true }));
 
-    // Envoyer le message avec l"embed et les boutons
     const replyMessage = await message.reply({
       embeds: [embed],
       components: [row],
@@ -69,41 +58,50 @@ module.exports = new Command({
       }
 
       let membersToProcess;
-      // Sélectionner les membres en fonction de l"interaction
+      const allMembers = await message.guild.members.fetch();
+
       if (collectedInteraction.customId === "humans") {
-        const allMembers = await message.guild.members.fetch();
-        membersToProcess = allMembers.filter(member => !member.user.bot);
-      } else if (collectedInteraction.customId === "all") {
-        membersToProcess = message.guild.members.cache;
+        membersToProcess = allMembers.filter(
+          (member) => !member.user.bot && member.roles.cache.has(role.id)
+        );
       } else if (collectedInteraction.customId === "bots") {
-        membersToProcess = message.guild.members.cache.filter(member => member.user.bot);
+        membersToProcess = allMembers.filter(
+          (member) => member.user.bot && member.roles.cache.has(role.id)
+        );
+      } else {
+        membersToProcess = allMembers.filter((member) =>
+          member.roles.cache.has(role.id)
+        );
       }
 
-      // Mettre à jour l"interaction
-      collectedInteraction.deferUpdate().catch(console.error);
-      
-      // Retirer le rôle des membres sélectionnés
-      await Promise.all(membersToProcess.map(member => member.roles.remove(role)));
+      const totalMembers = membersToProcess.size; // Nombre total de membres ayant le rôle
+      await collectedInteraction.deferUpdate().catch(console.error);
 
-      // Message de confirmation
+      let removedCount = 0;
+
+      for (const member of membersToProcess.values()) {
+        await member.roles.remove(role);
+        removedCount++;
+        console.log(chalk.red(`"${role.name}" retiré de "${member.user.username}" !`));
+      }
+
       replyMessage.edit({
         content: `Le rôle ${role} a été retiré à ${
           collectedInteraction.customId === "all"
-            ? "tous les membres du serveur"
+            ? `${totalMembers} membres`
             : collectedInteraction.customId === "humans"
-            ? "les humains"
-            : "les bots"
-        }.`,
+            ? `${totalMembers} humains`
+            : `${totalMembers} bots`
+        }.\nNombre total de rôles retirés: ${removedCount}.`,
         components: [],
       });
 
-      // Envoyer le message de confirmation
-      await message.reply(`Le retrait du \`\`${role.name}\`\` est terminé !`);
-      console.log(chalk.yellow(`[CMD] "${message.author.username}" à utilisé la commande e!role-all-remove sûr '${message.guild.name}'`))
+      await message.reply(`<:elexyr22:1067501213085597806> Le retrait du \`\`${role.name}\`\` est terminé ! \`\`${removedCount}\`\` **membres** ont perdu __le rôle !__ <a:valide_or:1067501018906108024>`);
+      console.log(chalk.yellow(`[CMD] "${message.author.username}" a utilisé la commande mass-role-remove sur '${message.guild.name}'`));
     } catch (error) {
       console.error("*Erreur lors du retrait du rôle...*", error);
       replyMessage.edit({
-        content: `*Une erreur s'est produite lors du retrait du rôle \`\`${role.name}.\`\` Veuillez réessayer plus tard...*`,
+        content: `*Une erreur s'est produite lors du retrait du rôle \`\`${role.name}\`\`. Veuillez réessayer plus tard...*`,
         components: [],
       });
     }
