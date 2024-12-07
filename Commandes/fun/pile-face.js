@@ -1,9 +1,8 @@
-const Discord = require("discord.js")
-const Command = require("../../Structure/Command")
-const chalk = require("chalk")
+const Discord = require("discord.js");
+const Command = require("../../Structure/Command");
+const chalk = require("chalk");
 
 module.exports = new Command({
-
     name: "pile-face",
     description: "Pile ou Face ?",
     utilisation: "",
@@ -13,9 +12,11 @@ module.exports = new Command({
     cooldown: 1,
     async run(bot, message, args, db) {
 
-        let res = Math.random() < 0.5 ? "Pile" : "Face";
-
-        message.reply(`Le **Résulat** est: || \`\`${res}\`\` ||`)
-        console.log(chalk.yellow(`[CMD] "${message.author.username}" à utilisé la commande e!pile-face sur '${message.guild.name}'`))
+        let results = [Math.random(), Math.random(), Math.random()];
+        let finalRes = results[2] < 0.5 ? "Pile" : "Face";
+        
+        message.reply(`Le **Résultat** est: || \`\`${finalRes}\`\` ||`);
+        
+        console.log(chalk.yellow(`[CMD] "${message.author.username}" a utilisé la commande "pile-face" sur '${message.guild.name}'`));
     }
 });
