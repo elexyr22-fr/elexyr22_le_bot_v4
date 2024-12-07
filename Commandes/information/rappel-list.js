@@ -7,7 +7,7 @@ module.exports = new Command({
   name: "rappel-list",
   description: "Liste des rappels",
   utilisation: "",
-  alias: ["rappel-list", "rmd-list", "reminder-list", "rp-list", "rmdlist"],
+  alias: ["rappel-list", "rmd-list", "reminder-list", "rp-list", "rmdlist", "rl", "rmdl"],
   permission: "",
   category: "3) Utile",
   cooldown: 5,
@@ -23,7 +23,7 @@ module.exports = new Command({
       }
 
       if (results.length === 0) {
-        return message.reply("*Vous n'avez aucun rappel enregistré...* ");
+        return message.reply("*Vous n'avez aucun rappel enregistré...* <a:nop1:1068106487358038126>");
       }
 
       const rappels = results.map((row, index) => {
