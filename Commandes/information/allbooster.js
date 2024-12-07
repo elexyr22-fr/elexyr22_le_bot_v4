@@ -14,7 +14,7 @@ module.exports = new Command({
     const guild = message.guild;
 
     if (guild.premiumSubscriptionCount === 0) {
-      message.reply("<:elexyr22:1067501213085597806> *Le serveur n'a pas de Boost...* <a:sad:1082769321413070949>");
+      message.reply("*Le serveur n'a pas de Boost...*");
       return;
     }
 
@@ -25,7 +25,7 @@ module.exports = new Command({
     );
 
     if (boostersWithPremium.size === 0) {
-      message.reply("<:elexyr22:1067501213085597806> *Personne n'a encore boosté le serveur...* <a:sad:1082769321413070949>");
+      message.reply("*Personne n'a encore boosté le serveur...*");
       return;
     }
 
