@@ -6,7 +6,7 @@ module.exports = new Command({
     name: "",
     description: "",
     utilisation: "",
-    alias: ["bu"],
+    alias: ["bu", "set-bump"],
     permission: "",
     category: "",
     cooldown: 1,
@@ -33,6 +33,6 @@ module.exports = new Command({
 
        db.query(`UPDATE user SET bump = '${reason}' WHERE userID = ${user.id}`)
                      
-       message.reply(`${user} à été changé !`)
+       message.reply(`${user.username} à été changé !`)
               
             })}})
