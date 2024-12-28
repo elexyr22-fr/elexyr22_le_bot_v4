@@ -15,7 +15,7 @@ module.exports = new Event("messageCreate", async (bot, message) => {
             db.query(sql, function (err) {err})
 
         } else {
-			if(message.guild.id !== "123") return; // id du serv
+			if(message.guild.id !== "GUILD-ID") return; // id du serv
             let xp = 1
             db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) + xp}' WHERE userID = ${message.author.id}`)
             
@@ -53,7 +53,7 @@ module.exports = new Event("messageCreate", async (bot, message) => {
             //const role = message.member.roles.cache.has("1065700492581273680")
             let role = message.id
 
-			if(message.guild.id !== "123") return; // id de ebot
+			if(message.guild.id !== "GUILD-ID") return; // id de ebot
             
             if(parseInt(req[0].level) == 0) {
             if(parseInt(req[0].xp) >= nextLevelXP1) {
@@ -194,7 +194,7 @@ module.exports = new Event("messageCreate", async (bot, message) => {
                                      db.query(`UPDATE user SET level = '10' WHERE userID = ${message.author.id}`)
                                      db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) - need}' WHERE userID = ${message.author.id}`)
                                                     
-                                                                            let actif = message.guild.roles.cache.find(role => role.id === "ID 10")
+                                                                            let actif = message.guild.roles.cache.find(role => role.id === "ID-10")
                                                                             message.guild.members.cache.get(message.author.id).roles.add(actif)
                                                                         
                                                                             message.channel.send(`Bravo ${message.author}, tu es passé niveau \`10\` !`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
