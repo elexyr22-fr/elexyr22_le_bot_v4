@@ -3,7 +3,7 @@ const Event = require("../../Structure/Event");
 
 module.exports = new Event("ready", async (bot) => {
   const db = bot.db;
-  /*const guild = bot.guilds.cache.get("942897714956472401");
+  const guild = bot.guilds.cache.get("ID GUILD");
   const role = guild.roles.cache.find((r) => r.name === "🔊・Vocal"); // Nom du rôle vocal
 
   // Vérifier si l'utilisateur a déjà le rôle vocal et ajouter les points en conséquence
@@ -21,5 +21,5 @@ module.exports = new Event("ready", async (bot) => {
         });
       }
     });
-  }, 10000); */
+  }, 10000);
 });
