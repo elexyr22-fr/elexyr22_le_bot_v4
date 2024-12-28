@@ -13,23 +13,23 @@ module.exports = new Command({
 
     async run(bot, message, args) {
         
-   if(message.author.id !== "1046761650675519499") return;
+ 		if(message.author.id !== "ID-OWNER") return message.reply("pas owner")
         
          const db = bot.db
 
       let user;
        if(message.user ? args._hoistedOptions.length >= 1 : args.length >= 1) {
            user = message.user ? await bot.users.fetch(args._hoistedOptions[0].value).catch(() => null) : (message.mentions.users.first() || await bot.users.fetch(args[0]).catch(() => null))
-           if(!user) return message.reply("<:elexyr22:1067501213085597806> Cet utilisateur n'existe pas... <a:nop1:1068106487358038126>");
+           if(!user) return message.reply("Cet utilisateur n'existe pas...");
        } else {
            user = message.user ? message.user : message.author;
        }
-       if(!user) return message.reply("<:elexyr22:1067501213085597806> Cet utilisateur n'existe pas... <a:nop1:1068106487358038126>");
+       if(!user) return message.reply("Cet utilisateur n'existe pas...");
         
         let reason = message.user ? (args._hoistedOptions.length > 1 ? args._hoistedOptions[1].value : undefined) : args.slice(1).join(" ");  
         db.query(`SELECT * FROM user WHERE userID = ${user.id}`, async (err, req) => {
 
-       if(req.length < 1) return message.reply("<:elexyr22:1067501213085597806> *Cette personne n'est pas enregistrée dans le bot...* <a:snif:1069970251279769641>")
+       if(req.length < 1) return message.reply("*Cette personne n'est pas enregistrée dans le bot...*")
 
        db.query(`UPDATE user SET voiceTime = '${reason}' WHERE userID = ${user.id}`)
                      
