@@ -5,20 +5,17 @@ module.exports = new Event("messageCreate", async (bot, message) => {
     
     
     if(message.author.bot) return;
-    //if(message.author.id == "1046761650675519499" || message.author.id == "902859548740698144") return; //id de Elexyr / Shocked
-    //if(message.member.roles.cache.has("1083804164284493864")) return; //sub yt
-   // if(message.channel.id !== "1085672913778253894") return; //ceulement la discution */
     
     const db = bot.db;
 
     db.query(`SELECT * FROM user WHERE userID = ${message.author.id}`, async (err, req) => {
         if(req.length < 1) {
             let sql = `INSERT INTO user (userID, xp, level, afk, voiceTime, bump, event, robot) VALUES (${message.author.id}, '0', '0', 'off', '0', '0', '0', 'off')`
-            message.reply(`Bravo ${message.author}, tu as envoyé ton **premier message !**`).then(async mess => setTimeout(async () => {mess.delete()}, 20000))
+            message.channel.send(`Bravo ${message.author}, tu as envoyé ton **premier message !**`).then(async mess => setTimeout(async () => {mess.delete()}, 3000))
             db.query(sql, function (err) {err})
 
         } else {
-			if(message.guild.id !== "123") return; // id de la commu
+			if(message.guild.id !== "123") return; // id du serv
             let xp = 1
             db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) + xp}' WHERE userID = ${message.author.id}`)
             
@@ -64,10 +61,10 @@ module.exports = new Event("messageCreate", async (bot, message) => {
                 db.query(`UPDATE user SET level = '1' WHERE userID = ${message.author.id}`)
                 db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) - need}' WHERE userID = ${message.author.id}`)
 
-                let actif = message.guild.roles.cache.find(role => role.id === "1078363687666057409")
+                let actif = message.guild.roles.cache.find(role => role.id === "ID 1")
                 message.guild.members.cache.get(message.author.id).roles.add(actif)
                 console.log(`${message.author.username} es passé niveau 1`)
-                message.channel.send(`<:elexyr22:1067501213085597806> Bravo ${message.author}, tu es passé niveau \`1\` ! <a:gg1:1088132884675702945>`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
+                message.channel.send(`Bravo ${message.author}, tu es passé niveau \`1\` !`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
               }}}
 
             if(parseInt(req[0].level) == 1) {
@@ -77,11 +74,11 @@ module.exports = new Event("messageCreate", async (bot, message) => {
                     db.query(`UPDATE user SET level = '2' WHERE userID = ${message.author.id}`)
                     db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) - need}' WHERE userID = ${message.author.id}`)
     
-                    let actif = message.guild.roles.cache.find(role => role.id === "1065700488038854676")
+                    let actif = message.guild.roles.cache.find(role => role.id === "ID 2")
                     message.guild.members.cache.get(message.author.id).roles.add(actif)
                 
                     console.log(`${message.author.username} es passé niveau 2`)
-                    message.channel.send(`<:elexyr22:1067501213085597806> Bravo ${message.author}, tu es passé niveau \`2\` ! <a:gg1:1088132884675702945>`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
+                    message.channel.send(`Bravo ${message.author}, tu es passé niveau \`2\` !`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
                 }}}
 
                     if(parseInt(req[0].level) == 2) {
@@ -91,11 +88,11 @@ module.exports = new Event("messageCreate", async (bot, message) => {
                             db.query(`UPDATE user SET level = '3' WHERE userID = ${message.author.id}`)
                             db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) - need}' WHERE userID = ${message.author.id}`)
             
-                            let actif = message.guild.roles.cache.find(role => role.id === "1065700486029783271")
+                            let actif = message.guild.roles.cache.find(role => role.id === "ID 3")
                             message.guild.members.cache.get(message.author.id).roles.add(actif)
                         
                             console.log(`${message.author.username} es passé niveau 3`)
-                            message.channel.send(`<:elexyr22:1067501213085597806> Bravo ${message.author}, tu es passé niveau \`3\` ! <a:gg1:1088132884675702945>`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
+                            message.channel.send(`Bravo ${message.author}, tu es passé niveau \`3\` !`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
                         }}}
 
                         if(parseInt(req[0].level) == 3) {
@@ -107,10 +104,10 @@ module.exports = new Event("messageCreate", async (bot, message) => {
                                 db.query(`UPDATE user SET level = '4' WHERE userID = ${message.author.id}`)
                                 db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) - need}' WHERE userID = ${message.author.id}`)
                 
-                                let actif = message.guild.roles.cache.find(role => role.id === "1065700483416739911")
+                                let actif = message.guild.roles.cache.find(role => role.id === "ID 4")
                                 message.guild.members.cache.get(message.author.id).roles.add(actif)
                             
-                                message.channel.send(`<:elexyr22:1067501213085597806> Bravo ${message.author}, tu es passé niveau \`4\` ! <a:gg1:1088132884675702945>`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
+                                message.channel.send(`Bravo ${message.author}, tu es passé niveau \`4\` !`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
                             }}}}}
 
                             if(parseInt(req[0].level) == 4) {
@@ -122,10 +119,10 @@ module.exports = new Event("messageCreate", async (bot, message) => {
                                         db.query(`UPDATE user SET level = '5' WHERE userID = ${message.author.id}`)
                                         db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) - need}' WHERE userID = ${message.author.id}`)
                         
-                                        let actif = message.guild.roles.cache.find(role => role.id === "1102211031956209775")
+                                        let actif = message.guild.roles.cache.find(role => role.id === "ID 5")
                                         message.guild.members.cache.get(message.author.id).roles.add(actif)
                                     
-                                        message.channel.send(`<:elexyr22:1067501213085597806> Bravo ${message.author}, tu es passé niveau \`5\` ! <a:gg1:1088132884675702945>`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
+                                        message.channel.send(`Bravo ${message.author}, tu es passé niveau \`5\` !`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
                                     }}}}}
 
                                     if(parseInt(req[0].level) == 5) {
@@ -137,10 +134,10 @@ module.exports = new Event("messageCreate", async (bot, message) => {
                                                 db.query(`UPDATE user SET level = '6' WHERE userID = ${message.author.id}`)
                                                 db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) - need}' WHERE userID = ${message.author.id}`)
                                       
-                                                let actif = message.guild.roles.cache.find(role => role.id === "1102211197782208522")
+                                                let actif = message.guild.roles.cache.find(role => role.id === "ID 6")
                                                 message.guild.members.cache.get(message.author.id).roles.add(actif)
                                              
-                                                message.channel.send(`<:elexyr22:1067501213085597806> Bravo ${message.author}, tu es passé niveau \`6\` ! <a:gg1:1088132884675702945>`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
+                                                message.channel.send(`Bravo ${message.author}, tu es passé niveau \`6\` !`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
                                             }}}}}
 
                                                 if(parseInt(req[0].level) == 6) {
@@ -152,10 +149,10 @@ module.exports = new Event("messageCreate", async (bot, message) => {
                                                         db.query(`UPDATE user SET level = '7' WHERE userID = ${message.author.id}`)
                                                         db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) - need}' WHERE userID = ${message.author.id}`)
                                           
-                                                        let actif = message.guild.roles.cache.find(role => role.id === "1102249604688379944")
+                                                        let actif = message.guild.roles.cache.find(role => role.id === "ID 7")
                                                         message.guild.members.cache.get(message.author.id).roles.add(actif)
                                                     
-                                                        message.channel.send(`<:elexyr22:1067501213085597806> Bravo ${message.author}, tu es passé niveau \`7\` ! <a:gg1:1088132884675702945>`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
+                                                        message.channel.send(`Bravo ${message.author}, tu es passé niveau \`7\` !`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
                                                     }}}}}
 
                                                     if(parseInt(req[0].level) == 7) {
@@ -167,10 +164,10 @@ module.exports = new Event("messageCreate", async (bot, message) => {
                                                                 db.query(`UPDATE user SET level = '8' WHERE userID = ${message.author.id}`)
                                                                 db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) - need}' WHERE userID = ${message.author.id}`)
                                                 
-                                                                let actif = message.guild.roles.cache.find(role => role.id === "1102211287389306961") 
+                                                                let actif = message.guild.roles.cache.find(role => role.id === "ID 8") 
                                                                 message.guild.members.cache.get(message.author.id).roles.add(actif)
                                                             
-                                                                message.channel.send(`<:elexyr22:1067501213085597806> Bravo ${message.author}, tu es passé niveau \`8\` ! <a:gg1:1088132884675702945>`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
+                                                                message.channel.send(`Bravo ${message.author}, tu es passé niveau \`8\` !`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
                                                             }}}}}
 
                                                             if(parseInt(req[0].level) == 8) {
@@ -182,10 +179,10 @@ module.exports = new Event("messageCreate", async (bot, message) => {
                                                    db.query(`UPDATE user SET level = '9' WHERE userID = ${message.author.id}`)
                                                    db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) - need}' WHERE userID = ${message.author.id}`)
                                                         
-                                                                        let actif = message.guild.roles.cache.find(role => role.id === "1102211394893529119") 
+                                                                        let actif = message.guild.roles.cache.find(role => role.id === "ID 9") 
                                                                         message.guild.members.cache.get(message.author.id).roles.add(actif)
                                                                     
-                                                                        message.channel.send(`<:elexyr22:1067501213085597806> Bravo ${message.author}, tu es passé niveau \`9\` ! <a:gg1:1088132884675702945>`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
+                                                                        message.channel.send(`Bravo ${message.author}, tu es passé niveau \`9\` !`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
                                                                    }}}}}
                                                     
                                                                     if(parseInt(req[0].level) == 9) {
@@ -197,9 +194,9 @@ module.exports = new Event("messageCreate", async (bot, message) => {
                                      db.query(`UPDATE user SET level = '10' WHERE userID = ${message.author.id}`)
                                      db.query(`UPDATE user SET xp = '${parseInt(req[0].xp) - need}' WHERE userID = ${message.author.id}`)
                                                     
-                                                                            let actif = message.guild.roles.cache.find(role => role.id === "1102211467408851004")
+                                                                            let actif = message.guild.roles.cache.find(role => role.id === "ID 10")
                                                                             message.guild.members.cache.get(message.author.id).roles.add(actif)
                                                                         
-                                                                            message.channel.send(`<:elexyr22:1067501213085597806> Bravo ${message.author}, tu es passé niveau \`10\` ! <a:gg1:1088132884675702945>`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
+                                                                            message.channel.send(`Bravo ${message.author}, tu es passé niveau \`10\` !`).then(async mess => setTimeout(async () => {mess.delete()}, 5000))
                                                     
                                                                         }}}}}}})})
