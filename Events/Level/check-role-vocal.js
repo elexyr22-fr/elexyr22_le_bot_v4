@@ -3,8 +3,20 @@ const Event = require("../../Structure/Event");
 
 module.exports = new Event("ready", async (bot) => {
   const db = bot.db;
-  const guild = bot.guilds.cache.get("ID GUILD");
+  const guildId = "ID_GUILD"; // Remplace par ton ID de serv
+  const guild = bot.guilds.cache.get(guildId);
+
+  if (!guild) {
+    console.error(`Guilde avec l'ID ${guildId} non trouvée`);
+    return;
+  }
+
   const role = guild.roles.cache.find((r) => r.name === "🔊・Vocal"); // Nom du rôle vocal
+
+  if (!role) {
+    console.log("Rôle non trouvé");
+    return;
+  }
 
   // Vérifier si l'utilisateur a déjà le rôle vocal et ajouter les points en conséquence
   setInterval(async () => {
