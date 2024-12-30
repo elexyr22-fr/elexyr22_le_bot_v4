@@ -2,27 +2,36 @@ const Discord = require("discord.js");
 const Event = require("../../Structure/Event");
 
 module.exports = new Event("ready", async (bot) => {
-
   const db = bot.db;
-  const executeQuery = async () => {
-    try {
-      const result = await new Promise((resolve, reject) => {
-        db.query("SELECT * FROM rmd", (err, req) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(req);
+  const guildId = "ID_GUILD"; // Remplace par ton ID de serv
+  const guild = bot.guilds.cache.get(guildId);
+
+  if (!guild) {
+    console.error(`Guilde avec l'ID ${guildId} non trouvée`);
+    return;
+  }
+
+  const role = guild.roles.cache.find((r) => r.name === "🔊・Vocal"); // Nom du rôle vocal
+
+  if (!role) {
+    console.log("Rôle non trouvé");
+    return;
+  }
+
+  // Vérifier si l'utilisateur a déjà le rôle vocal et ajouter les points en conséquence
+  setInterval(async () => {
+    guild.members.cache.forEach(async (member) => {
+      if (member.roles.cache.has(role.id)) {
+        const userId = member.user.id;
+        db.query(`SELECT * FROM user WHERE userID = ${userId}`, async (err, req) => {
+          if (req.length < 1) return;
+          try {
+            db.query(`UPDATE user SET voiceTime = ${parseInt(req[0].voiceTime) + 10} WHERE userID = ${userId}`);
+          } catch (error) {
+            console.error(error);
           }
         });
-      });
-
-      // console.log("Connexion à la base de données réussie");
-
-    } catch (error) {
-      console.error("Erreur lors de la connexion à la base de données :", error);
-      process.exit(1); 
-    }}
-    
-  await executeQuery();
-  setInterval(executeQuery, 10000);
+      }
+    });
+  }, 10000);
 });
