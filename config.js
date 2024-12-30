@@ -1,3 +1,3 @@
 module.exports = {
-    token: "TOKEN-ICI"
+    token: "TOKEN_ICI"
 }
