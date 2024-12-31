@@ -18,5 +18,5 @@ module.exports = new Event("ready", async (bot) => {
     });
   }, 10000); // Change interval to 10 seconds (10000 ms)
 
-  console.log(chalk.bgBlue(`${bot.user.username}: En ligne sur ${bot.guilds.cache.size} serveurs !`));
+  console.log(chalk.bgBlue(`${bot.user.username} (${bot.user.id}): En ligne sur ${bot.guilds.cache.size} serveurs !`));
 });
