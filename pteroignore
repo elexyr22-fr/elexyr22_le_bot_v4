@@ -1,0 +1,16 @@
+.cache/
+.local/
+install.log
+.npm/
+node_modules/
+archive*.tar.gz
+backup/
+cache/
+logs/
+crash-reports/
+.console_history
+usercache.json
+plugins/dynmap/web/*
+plugins/CoreProtect/database.db
+bluemap/
+__pycache__
