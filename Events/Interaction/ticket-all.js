@@ -26,8 +26,6 @@ module.exports = new Event('interactionCreate', async (bot, interaction) => {
             VIEW_CHANNEL: false,
             READ_MESSAGE_HISTORY: false
         })
-
-        await interaction.reply({content: `Votre ticket a été créé avec succès ${channel} !`, ephemeral: true})
         
         let Embed = new Discord.MessageEmbed()
         .setColor(bot.color)
@@ -43,20 +41,12 @@ module.exports = new Event('interactionCreate', async (bot, interaction) => {
         .setLabel("Fermer le ticket")
         .setCustomId("close"))
                                                                  
-       /* new Discord.MessageButton()
-        .setStyle("PRIMARY")
-        .setEmoji("📑")
-        .setLabel("Demander le transcript")
-        .setCustomId("transcript") */
 
         await channel.send(`|| ${interaction.user} | @everyone  ||`);
         const sentMessage = await channel.send({embeds: [Embed], components: [btn]})
         await sentMessage.pin();
     }
-
-   /* if(interaction.customId === "transcript") {
-        await interaction.reply({content: `<:elexyr22:1067501213085597806> *Le transcript est en cours de développement, merci de patienter...* <a:fox_work:1065710430980411482>`, ephemeral: true})} */
-
+	  
     if(interaction.customId === "close") {
 	if(interaction.guild.id === "ID") { //ID du serveur
 
